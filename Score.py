@@ -25,6 +25,7 @@ if x >= 1000:
     score_w.write("Score:", font=font_setup)
     score_display.write(playerscore, font=font_setup)
 
+
 if x <= 1000:
     score_display.penup()
     score_display.hideturtle()
