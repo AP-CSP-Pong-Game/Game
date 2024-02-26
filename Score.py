@@ -1,20 +1,39 @@
 import turtle as trtl 
 
 playerscore = 0
-trtl.goto(0,0)
+font_setup = ("Arial", 20, "normal")
+test = trtl.Turtle()
+score_display = trtl.Turtle()
+score_w = trtl.Turtle()
 
-trtl.forward(1005)
 
-x = trtl.xcor()
-y = trtl.ycor()
+test.goto(0,0)
+test.forward(1005)
+
+x = test.xcor()
+y = test.ycor()
 if x >= 1000:
     playerscore = playerscore + 1
-    print("Score:", playerscore)
+    score_display.penup()
+    score_display.goto(0,450)
+    score_display.hideturtle()
+    score_display.pendown()
+    score_w.penup()
+    score_w.hideturtle()
+    score_w.goto(-80, 450)
+    score_w.pendown()
+    score_w.write("Score:", font=font_setup)
+    score_display.write(playerscore, font=font_setup)
 
-if x <= -1000:
-    print("Game Over")
-    print("Your Score is", playerscore)
+if x <= 1000:
+    score_display.penup()
+    score_display.hideturtle()
+    score_display.clear()
+    score_display.goto(-50,450)
+    score_display.pendown()
+    score_display.write("Game Over", font=font_setup)
 
 
 
-trtl.done()
+wn = trtl.Screen()
+wn.mainloop()
