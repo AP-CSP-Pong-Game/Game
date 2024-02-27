@@ -20,7 +20,7 @@ paddle.color(Pcolor)
 paddle.shapesize(3)
 paddle.fillcolor(Pcolor)
 
-speed = 1
+speed = 2
 
 startx = 400
 starty = -260
@@ -42,16 +42,18 @@ start = time.time()
 
 #movement for player
 def moveU():
-    paddle.forward(5)
+    paddle.forward(speed)
     
 def moveD():
-    paddle.back(5)
+    if paddle.position != (400,-260):
+      paddle.back(speed)
     
 #speed change
+    
 def speedchange():
   global speed
-  if (time.time() - start) % 5 == 0:
-     speed +=1
+  if int((time.time() - start)) % 6 == 0:
+     speed += 0.0001
      paddle.speed(speed)
      print("speed change")
 
@@ -65,9 +67,10 @@ wn.tracer(0)
 
 #this is gnna get replaced with computer score
 while True:
-  counter.clear()
-  counter.write(int(time.time() - start), font = ("arial", 30))
   speedchange()
+  counter.clear()
+
+  counter.write(int(time.time() - start), font = ("arial", 30))
   wn.update()
 
 
