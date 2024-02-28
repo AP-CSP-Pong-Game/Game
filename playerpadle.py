@@ -42,20 +42,27 @@ start = time.time()
 
 #movement for player
 def moveU():
-    paddle.forward(speed)
+    if paddle.position == (400,270):
+      print("stoped")
+    else:
+      paddle.forward(speed)
+    
     
 def moveD():
-    if paddle.position != (400,-260):
+    if paddle.position == (400,0):
+      print("stoped")
+    else:
       paddle.back(speed)
+    
     
 #speed change
     
 def speedchange():
   global speed
-  if int((time.time() - start)) % 6 == 0:
-     speed += 0.0001
+  if int((time.time() - start)) % 5 == 0:
+     speed += 0.001
      paddle.speed(speed)
-     print("speed change")
+     #print("speed change")
 
 screen.onkeypress(moveU, "Up")
 screen.onkeypress(moveD, "Down")
