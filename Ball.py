@@ -1,6 +1,7 @@
+#set up
+import time
 import turtle as trtl
-
-#SCREEN
+paddle = trtl.Turtle()
 
 #create screen
 screen = trtl.Screen()
@@ -9,12 +10,30 @@ screen.title("Pong game")
 #sets the background color of the screen
 screen.bgcolor("white")
 #sets the width and height of the screen
-screen.setup(width=1000, height=600)
+screen.setup(width=800, height=600)
+
+#paddle setup
+paddle.penup()
+paddle.left(90)
+
+Pshape = "square"
+Pcolor = "green"
+
+paddle.shape(Pshape)
+paddle.color(Pcolor)
+paddle.shapesize(3)
+paddle.fillcolor(Pcolor)
+
+speed = 2
+
+startx = 400
+starty = -260
+paddle.goto(startx,starty)
 
 #BALL
 
 #color
-color = "white"
+color = "black"
 #Shape
 Shape = "circle"
 #Speed
@@ -31,9 +50,40 @@ ball.color(color)
 ball.speed(Speed)
 #makes sure the turtle(ball) won't write anything
 ball.penup()
-ball.dy = -5
-ball.dx = 5
-#function to set Ball color
+dy = -5
+dx = 5
+ballYCord = ball.ycor
+ballXCord = ball.xcor
+
+#-----countdown variables-----
+font_setup = ("Arial", 20, "normal")
+
+timer_up = False
+
+#-----countdown writer-----
+counter = trtl.Turtle()
+counter.hideturtle()
+counter.penup()
+counter.goto(0,0)
+start = time.time()
+
+#-----game functions-----
+
+#movement for player
+def moveU():
+    if paddle.position == (400,270):
+      print("stoped")
+    else:
+      paddle.forward(speed)
+    
+    
+def moveD():
+    if paddle.position == (400,0):
+      print("stoped")
+    else:
+      paddle.back(speed)
+
+#Sets the ball's color   
 def SetBallColor(str):
     color = str
     ball.color(color)
@@ -60,44 +110,67 @@ def GetBallShape():
 def GetBallSpeed():
     return Speed
 
-while True: #going to be replaced with computer score is less than 3
-    screen.update()
+#speed change
+def speedchange():
+  global speed
+  if int((time.time() - start)) % 5 == 0:
+     speed += 0.001
+     paddle.speed(speed)
+     #print("speed change")
 
+screen.onkeypress(moveU, "Up")
+screen.onkeypress(moveD, "Down")
+screen.listen()
+
+#wn = trtl.Screen()
+
+screen.tracer(0)
+
+#this is gnna get replaced with computer score
+while True:
+    speedchange()
+    counter.clear()
+
+    counter.write(int(time.time() - start), font = ("arial", 30))
     #movement of the ball
-    ball.setx(ball.xcor() + ball.dx)
-    ball.sety(ball.ycor + ball.dy)
+    ballYCord = ball.ycor
+    ballXCord = ball.xcor
+    ball.setx(ballXCord + dx) # crashing at this line
+    ball.sety(ballYCord + dy)
 
+    PlayerYCord = paddle.ycor
+    PlayerXCord = paddle.xcor
     # y coord boarders for the ball
-    if ball.ycor() > 280:
+    if (ballYCord > 280):
         ball.sety(280)
-        ball.dy *=-1
+        dy *=-1
     
-    if ball.ycor() < -280:
+    if (ballYCord < -280):
         ball.sety(-280)
-        ball.dy *= -1
+        dy *= -1
     
     #scoring the ball
-    if ball.xcor() > 500:
+    if (ballXCord > 500):
         ball.setposition(0, 0)
-        ball.dy *= -1
+        dy *= -1
         #computer gets a point here
     
-    if ball.xcor < -500:
+    if (ballXCord < -500):
         ball.setposition(0, 0)
-        ball.dy *=-1
+        dy *=-1
         #Player gets a point
     
     #computer hits the ball
-    if (ball.xcor() < -360 and ball.xcor() > -370) and (ball.ycor() < 0 and ball.ycor() > 0): 
+    if (ballXCord < -360 and ballXCord > -370) and (ballYCord < 0 and ballYCord > 0): 
         "computer paddle y cord + 40"  #first zero
         "computer paddle y cord - 40"  #second zero
         ball.setx(-360)
-        ball.sx *= -1
+        dx *= -1
     
     #player hits the ball
-    if (ball.xcor() > 360 and ball.xcor() > 370) and (ball.ycor() < 0 and ball.ycor() > 0): 
+    if (ballXCord > 360 and ballXCord > 370) and (PlayerYCord + 40 < 0 and PlayerYCord - 40 > 0): 
         "player paddle y cord + 40"  #first zero
         "player paddle y cord - 40"  #second zero
         ball.setx(360)
-        ball.sx *= -1
-    
+        dx *= -1
+    screen.update()
