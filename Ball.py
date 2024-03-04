@@ -1,6 +1,7 @@
 #set up
 import time
 import turtle as trtl
+from types import DynamicClassAttribute
 paddle = trtl.Turtle()
 
 #create screen
@@ -50,8 +51,8 @@ ball.color(color)
 ball.speed(Speed)
 #makes sure the turtle(ball) won't write anything
 ball.penup()
-dy = -5
-dx = 5
+dy = float(-5)
+dx = float(5)
 ballYCord = ball.ycor
 ballXCord = ball.xcor
 
@@ -133,8 +134,8 @@ while True:
 
     counter.write(int(time.time() - start), font = ("arial", 30))
     #movement of the ball
-    ballYCord = ball.ycor
-    ballXCord = ball.xcor
+    ballYCord = int(ball.ycor)
+    ballXCord = int(ball.xcor)
     ball.setx(ballXCord + dx) # crashing at this line
     ball.sety(ballYCord + dy)
 
